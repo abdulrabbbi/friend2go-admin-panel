@@ -6,25 +6,38 @@ export default defineConfig({
   base: "/",
   plugins: [react(), tailwindcss()],
   build: {
-    chunkSizeWarningLimit: 1000, // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
-      onwarn(warning, warn) {
-        // Suppress "Module level directives cause errors when bundled" warnings
-        if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
+      onwarn(warning, defaultHandler) {
+        // Completely suppress "use client" directive warnings
+        if (
+          warning.code === "MODULE_LEVEL_DIRECTIVE" ||
+          (warning.message &&
+            (warning.message.includes(
+              "Module level directives cause errors when bundled"
+            ) ||
+              warning.message.includes('"use client"') ||
+              warning.message.includes("use client")))
+        ) {
+          // Don't log these warnings at all
           return;
         }
-        warn(warning);
+
+        // Log all other warnings normally
+        defaultHandler(warning);
       },
       output: {
         manualChunks: {
-          // Split vendor libraries into separate chunks
-          "react-vendor": ["react", "react-dom"],
-          router: ["react-router-dom"],
-          "ui-vendor": ["react-hot-toast", "lucide-react", "react-icons"],
-          "chart-vendor": ["recharts"],
-          "firebase-vendor": ["firebase"],
+          "vendor-react": ["react", "react-dom"],
+          "vendor-router": ["react-router-dom"],
+          "vendor-ui": ["react-hot-toast", "lucide-react", "react-icons"],
+          "vendor-charts": ["recharts"],
+          "vendor-firebase": ["firebase"],
         },
       },
     },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "react-router-dom"],
   },
 });
