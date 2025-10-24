@@ -26,7 +26,8 @@ if (!rootElement) {
 
 try {
   debug.info("Creating root and rendering app...");
-  createRoot(rootElement).render(
+  const root = createRoot(rootElement);
+  root.render(
     <StrictMode>
       <ErrorBoundary>
         <App />
