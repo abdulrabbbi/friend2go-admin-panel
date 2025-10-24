@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* Map our design tokens to Tailwind v4 theme utilities */
+@theme {
+  /* Colors -> generate utilities like bg-bg, text-text, border-border, etc. */
+  --color-bg: hsl(var(--bg));
+  --color-bg-soft: hsl(var(--bg-soft));
+  --color-panel: hsl(var(--panel));
+  --color-border: hsl(var(--border));
+  --color-text: hsl(var(--text));
+  --color-muted: hsl(var(--muted));
+  --color-primary: hsl(var(--primary));
+  --color-success: hsl(var(--success));
+  --color-danger: hsl(var(--danger));
+  --color-warning: hsl(var(--warning));
+
+  /* Extra tokens used by classes (rounded-pill, shadow-*) */
+  --radius-pill: 9999px;
+  --shadow-glass: 0 10px 40px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
+  --shadow-neon-sm: 0 0 24px -6px hsla(var(--primary)/.4), inset 0 1px 0 rgba(255,255,255,.08);
+}
+/* ===== Design Tokens (HSL) ===== */
+:root {
+  /* Dark base (BALLIE) */
+  --bg: 228 16% 7%;           /* page background #0d1114 */
+  --bg-soft: 228 16% 9%;      /* subtle panels */
+  --panel: 228 16% 11%;       /* glass background color layer */
+  --border: 210 10% 22%;
+  --text: 210 20% 92%;
+  --muted: 210 10% 65%;
+
+  /* Brand neon lime accent */
+  --primary: 88 96% 56%;      /* #a8ff1a vibes */
+  --primary-2: 101 100% 33%;  /* deep lime for gradients */
+
+  /* Status */
+  --success: 142 70% 45%;
+  --danger: 0 84% 60%;
+  --warning: 38 92% 55%;
+}
+
+/* Light (optional) */
+[data-theme="light"] {
+  --bg: 210 20% 98%;
+  --bg-soft: 210 20% 96%;
+  --panel: 0 0% 100%;
+  --border: 210 16% 88%;
+  --text: 222 23% 12%;
+  --muted: 220 10% 40%;
+  --primary: 88 96% 40%;
+  --primary-2: 101 84% 30%;
+}
+
+/* ===== Base ===== */
+@layer base {
+  /* Responsive base font-size: scales between 15px on small screens and 18px on large screens.
+     This lets all rem-based Tailwind utilities (text-*, spacing, etc.) scale proportionally. */
+  html {
+    font-size: clamp(15px, 0.9rem + 0.6vw, 18px);
+  }
+  html, body, #root {
+    @apply bg-bg text-text min-h-screen;
+    background-image:
+      radial-gradient(1200px 600px at 50% -10%, hsla(var(--primary)/.18), transparent 60%),
+      radial-gradient(800px 400px at 90% 10%, hsla(var(--primary)/.10), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  :root, [data-theme="dark"] {
+    color-scheme: dark;
+  }
+}
+
+/* ===== Reusable component classes ===== */
+@layer components {
+  .glass {
+    @apply bg-panel/60 backdrop-blur-xl border border-border rounded-2xl shadow-glass;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-pill font-medium
+           transition-all border border-transparent;
+    background: linear-gradient(180deg, hsl(var(--primary)) 0%, hsl(var(--primary-2)) 100%);
+    color: #0b0d10;
+    text-shadow: 0 1px 0 rgba(255,255,255,.25);
+    box-shadow: 0 6px 24px -6px hsla(var(--primary)/.55), inset 0 1px 0 0 rgba(255,255,255,.35);
+  }
+  .btn:hover { box-shadow: 0 8px 32px -10px hsla(var(--primary)/.75), inset 0 1px 0 0 rgba(255,255,255,.5); transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-pill font-medium
+           border border-border text-text bg-panel/40 backdrop-blur-lg;
+  }
+  .btn-ghost:hover { box-shadow: 0 0 0 2px hsla(var(--primary)/.25), 0 8px 30px -10px rgba(0,0,0,.6); }
+
+  .input {
+    @apply w-full rounded-xl bg-panel/60 backdrop-blur-lg border border-border px-4 py-2.5 text-text
+           placeholder:!text-muted focus:outline-none focus:ring-2 focus:ring-primary/40;
+  }
+
+  .card {
+    /* Can't @apply custom classes in Tailwind v4; inline glass utilities */
+    @apply bg-panel/60 backdrop-blur-xl border border-border rounded-2xl shadow-glass p-4 sm:p-5;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-pill px-3 py-1 text-sm bg-primary/20 text-primary border border-primary/30;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-xl text-muted hover:text-text hover:bg-primary/10;
+  }
+  .nav-item.active {
+    @apply text-text bg-primary/15 border border-primary/30 shadow-neon-sm;
+  }
+}
+
+/* ===== Small helpers ===== */
+@layer utilities {
+  .brand-glow { box-shadow: 0 0 0 2px hsla(var(--primary)/.2), 0 0 42px hsla(var(--primary)/.35); }
+  .bg-gradient-brand { background: radial-gradient(120% 120% at 50% -20%, hsla(var(--primary)/.22) 0%, transparent 55%), hsl(var(--bg)); }
+
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .animate-float-slow { animation: floaty 6s ease-in-out infinite; }
+  .animate-float-slower { animation: floaty 10s ease-in-out infinite; }
+}

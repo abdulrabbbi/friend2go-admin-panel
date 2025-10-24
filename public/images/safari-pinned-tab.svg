@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- fill is used as the mask color -->
+  <path fill="#000000" d="M23 9c-2.21 0-4 1.79-4 4v38c0 2.21 1.79 4 4 4s4-1.79 4-4V37h19a4 4 0 0 0 0-8H27V20h22a4 4 0 0 0 0-8H23z"/>
+</svg>

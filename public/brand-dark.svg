@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Friend Admin Logo (Dark)">
+  <title>Friend Admin Logo (Dark)</title>
+  <desc>Rounded F monogram for dark backgrounds</desc>
+  <g stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M20 12v40"/>
+    <path d="M20 12h26"/>
+    <path d="M20 28h20"/>
+  </g>
+</svg>
