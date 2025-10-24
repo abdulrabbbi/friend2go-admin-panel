@@ -12,7 +12,7 @@ const UserDetail = lazy(() => import("../modules/users/UserDetail.jsx"));
 const PlansList = lazy(() => import("../modules/plans/PlansList.jsx"));
 const SettingsPage = lazy(() => import("../modules/settings/SettingsPage.jsx"));
 const Login = lazy(() => import("../modules/auth/Login.jsx"));
-const ChatPage = lazy(() => import("/src/modules/chat/ChatPage.jsx"));
+const ChatPage = lazy(() => import("../modules/chat/ChatPage.jsx"));
 const NotificationsPage = lazy(() =>
   import("../modules/notifications/NotificationsPage.jsx")
 );
