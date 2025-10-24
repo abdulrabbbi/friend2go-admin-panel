@@ -5,6 +5,8 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import { PATHS } from "./paths";
 import { FullScreenLoading } from "./Loading.jsx";
 
+console.log("[Router] Initializing router...");
+console.log("[Router] PATHS:", PATHS);
 
 const Dashboard = lazy(() => import("../modules/dashboard/Dashboard.jsx"));
 const UsersList = lazy(() => import("../modules/users/UsersList.jsx"));
@@ -16,7 +18,6 @@ const ChatPage = lazy(() => import("../modules/chat/ChatPage.jsx"));
 const NotificationsPage = lazy(() =>
   import("../modules/notifications/NotificationsPage.jsx")
 );
-
 
 const router = createBrowserRouter([
   {
@@ -101,5 +102,7 @@ const router = createBrowserRouter([
     element: <div className="card p-8">Not Found</div>,
   },
 ]);
+
+console.log("[Router] Router created successfully");
 
 export default router;

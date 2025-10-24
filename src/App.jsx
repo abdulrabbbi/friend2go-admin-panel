@@ -6,8 +6,8 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { debug } from "./utils/debug.js";
 
 export default function App() {
-  debug.info('App component rendering...');
-  
+  debug.info("App component rendering...");
+
   return (
     <AuthProvider>
       <RouterProvider router={router} />

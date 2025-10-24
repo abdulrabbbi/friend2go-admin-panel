@@ -10,29 +10,44 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     let unsubscribe;
-    
+
+    // Check if auth is available
+    if (!auth) {
+      console.error("[AuthContext] Firebase auth is not initialized");
+      setError(new Error("Firebase authentication is not available"));
+      setLoading(false);
+      return;
+    }
+
     try {
+      console.log("[AuthContext] Setting up auth state listener...");
       unsubscribe = onAuthStateChanged(
         auth,
         (u) => {
+          console.log(
+            "[AuthContext] Auth state changed:",
+            u ? "User logged in" : "User logged out"
+          );
           setUser(u);
           setLoading(false);
           setError(null);
         },
         (err) => {
-          console.error("Auth state change error:", err);
+          console.error("[AuthContext] Auth state change error:", err);
           setError(err);
           setLoading(false);
         }
       );
+      console.log("[AuthContext] Auth state listener set up successfully");
     } catch (err) {
-      console.error("Auth initialization error:", err);
+      console.error("[AuthContext] Auth initialization error:", err);
       setError(err);
       setLoading(false);
     }
 
     return () => {
       if (unsubscribe) {
+        console.log("[AuthContext] Cleaning up auth state listener");
         unsubscribe();
       }
     };
@@ -67,9 +82,12 @@ export function AuthProvider({ children }) {
       <div className="min-h-screen flex items-center justify-center bg-red-50">
         <div className="max-w-md mx-auto text-center p-6">
           <div className="text-6xl text-red-500 mb-4">🔥</div>
-          <h2 className="text-2xl font-bold text-red-800 mb-4">Authentication Error</h2>
+          <h2 className="text-2xl font-bold text-red-800 mb-4">
+            Authentication Error
+          </h2>
           <p className="text-red-600 mb-6">
-            Unable to initialize authentication. Please check your internet connection and try again.
+            Unable to initialize authentication. Please check your internet
+            connection and try again.
           </p>
           <button
             onClick={() => window.location.reload()}
@@ -88,4 +106,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
